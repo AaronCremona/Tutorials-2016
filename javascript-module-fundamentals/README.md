@@ -120,3 +120,40 @@ To install requireJS using npm
 ```
 $ npm install requirejs --save
 ```
+
+#### CommonJS Format
+Conceptually very similar to AMD format
+
+```javascript
+var player = require('./player.js');
+// this is how you declare a dependency
+// the loader will make sure dependencies are loaded
+function kickAssFunc () {
+  // kick ass and chew gum here
+}
+
+exports.kickAssFunc = kickAssFunc;
+```
+
+We don't have to wrap the module in anything. The whole file is the module.
+
+module.exports === exports
+i.e...
+```javascript
+exports.kickAssFunc = kickAssFunc;
+// is the exact same as
+module.exports.kickAssFunc = kickAssFunc;
+
+// but don't do this
+exports = {};
+// or this
+exports = function () {};
+// both will totally reassign the exports object and you'll lose your mojo
+// you can do these though:
+module.exports = {};
+module.exports = function() {};
+```
+Install SystemJS
+```
+$ npm install systemjs --save
+```
