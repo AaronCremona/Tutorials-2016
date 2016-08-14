@@ -1,4 +1,4 @@
-  var Scoreboard = function() {
+define([], function() {
   console.log('Creating a scoreboard...');
 
   // private members
@@ -30,4 +30,4 @@
     addResult: addResult,
     updateScoreboard: updateScoreboard
   };
-};
+});

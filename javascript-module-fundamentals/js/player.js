@@ -1,4 +1,6 @@
-var player = function () {
+define([], function() {
+  // no dependencies
+
   // private members
   var playerName = '';
 
@@ -19,4 +21,4 @@ var player = function () {
     setName: setName,
     getName: getName
   };
-}();
+});
