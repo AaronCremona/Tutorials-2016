@@ -236,3 +236,85 @@ $ npm install babel-preset-es2015 --save-dev
 # to run
 $ ./node_modules/.bin/bable js --presets es2015 --out-dir build
 ```
+
+## Browserify
+
+Allows the use of node modules and module syntax on the front end, mainly focused on the commonJS syntax. E.g. using the commonJS version of the app:
+
+```
+$ npm install browserify --save-dev
+$ mkdir build
+$ ./node_modules/.bin/browserify js/app.js --outfile build/bundle.js
+```
+
+This will start in the main file, app.js and then follow all the dependencies and generate one "built" js file (bundle.js)
+
+In index.html: remove all the module loader scripts and just use one script tag pointing to bundle.js
+
+### A warning about bundling:
+
+Most of the time bundling improves site performance by reducing the number of requests and responses that hit the server, however sometimes when an app grows too large it can actually be slower to download one monolithic file.
+
+## Webpack
+
+While browswerify focuses only on bundling commonJS, webpack has a shit ton of features.
+
+- bundles AMD, CommonJS, and ES2015
+- code splitting features - you can choose how the code is split into files for download from server to client
+- processes more than just JS (CSS and other files too)
+- uses "loaders" to pre-process and transform before the build step (e.g. transpile 2015 before bundling)
+
+```
+$ npm install webpack --save-dev
+
+# example build command
+$ ./node_modules/.bin/webpack js/app.js build/bundle.js
+```
+Change html file to reference build/bundle.js in a script tag
+
+### Using webpack with babel and es2015 module syntax
+
+The process of transpiling before building is called loading, so we need to install a loader. There are preconfigured loaders available:
+```
+# if not already done
+$ npm install webpack --save-dev
+$ npm install babel-loader babel-core --save-dev
+# also depends on babel-preset-es2015 which was already installed
+```
+
+Webpack is about to get very real (more complicated that is). To help manage that, a config file can/should be used: webpack.config.js in the root of the project.
+```javascript
+module.exports = {
+  entry: './js/app.js',
+  output: {
+    path: './build',
+    filename: 'bundle.js',
+  },
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      query: {
+        presets: ['es2015']
+      }
+    }]
+  }
+};
+```
+The config file itself is a CommonJS module. It assigns an object literal to modules.export with all the config info.
+
+- entry: this is set to the module that is the entry point (where the js starts)
+- output: path and file name for the bundled output
+- options for normal modules are set on module
+  - loaders: an array of loaders used to transform the project
+    - test: set to a regular expression - webpack will look for files matching the pattern and run the loader on them. in this case, it's looking for js extensions
+  - exclude: don't bother with these
+  - loader: which loader webpack should use
+  - query: parameters to pass to the loader (in this case es2015)
+
+To run webpack:
+```
+$ ./node_modules/.bin/webpack
+# we don't need to provide anything else because it is set in the config
+```
