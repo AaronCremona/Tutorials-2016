@@ -157,3 +157,82 @@ Install SystemJS
 ```
 $ npm install systemjs --save
 ```
+
+## ES2015 Modules
+
+- Real "native" support built into javascript
+- similar to other formats
+  - supports dependency management
+  - encapsulates implementation details
+  - explicitly expose public API
+- no libraries required
+- must transpile to ensure browser support
+- workflow
+  - written in ES2015
+  - transpiled to a supported format
+  - a loader is used (like requireJS or systemJS)
+
+### Importing and Exporting
+Imported items are dependencies.
+You may import the entire module or just part of it and choose any alias.
+
+Exporting is how you expose the api of the module. You can export items or everything. May specify a default export.
+
+#### Export Syntax
+
+```javascript
+export function thisIsPubliclyExposed() {}
+
+export function soIsThis() {}
+
+function butThisIsNot() {}
+
+export var publicVar = 'right on';
+```
+OR
+```javascript
+function thisIsPubliclyExposed() {}
+
+function soIsThis() {}
+
+function butThisIsNot() {}
+
+var publicVar = 'right on';
+
+export { thisIsPubliclyExposed, soIsThis as so, publicVar};
+```
+The two versions are mostly a matter of personal preference, but the second version is often easier with bigger modules
+
+```javascript
+export default function thisIsPubliclyExposed() {}
+```
+
+It is also possible to set the default so that it doesn't have to be named during import and is particularly helpful if you're only going to export one item anyway.
+
+#### Import Syntax
+
+
+```javascript
+import * as scoreboard from './scoreboard.js';
+// import everything
+scoreboard.updateScoreboard();
+
+import { addResult, updateScoreboard } from './scoreboard.js';
+// import only the selected
+
+import { updateScoreboard as update } from './scoreboard.js';
+// import using an alias
+
+import newResult from './scoreboard.js';
+// if there is a default export you can use this syntax
+```
+## babel
+
+Transpiler that supports most 2015 features and produces clean readable javascript of a previous version. It's executed as a build step.
+
+```
+$ npm install babel-cli --save-dev
+$ npm install babel-preset-es2015 --save-dev
+# to run
+$ ./node_modules/.bin/bable js --presets es2015 --out-dir build
+```
