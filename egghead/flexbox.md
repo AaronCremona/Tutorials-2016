@@ -52,6 +52,13 @@ body {
   /* they bunch up at the end, so in this case, bottom */
 
   justify-content: center;
-  /* they bunch together in the middle. This is *finally* a way to center one thing vertically in CSS!!!! */
+  /* they bunch together in the middle. This is *finally* a way to center one thing vertically in CSS!!!! If you only have one child, it's still centered vertically */
+
+  justify-content: space-between;;
+  /* the first goes to the top, the last goes to the bottom, then the rest spread out evenly */
+
+  justify-content: space-around;
+  /*  */
+
 }
 ```

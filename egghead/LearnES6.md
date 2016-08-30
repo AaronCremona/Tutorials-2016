@@ -20,9 +20,8 @@ var imaArrowFunc = (param1, param2) => param1 * param2;
 var squared = x => x * x;
 ```
 
-A big use case for arrow functions is the whole whack-ass issue of not having access to the correct 'this' inside a click handler (the that workaround):
-
-```javascript
+A big use case for arrow functions is the whole whack-ass issue of not having access to the correct 'this' inside a click handler (the that workaround)
+```
 var that = this;
 
 this.handleSomething(function(message) {
@@ -34,9 +33,9 @@ this.handleSomething(function(message) {
 this.handleSomething((message) => {
   console.log(message + this.name);
   // this works! this refers to the outer scope now
-
   // also, can be refactored to be even more concise
   this.handleSomething(message => console.log(message + this.name));
+}
 ```
 
 ## let
@@ -184,6 +183,7 @@ function receive(complete = () => console.log("you did it")) {
 receive();
 ```
 ## Constants
+
 Javascript convention is to use all caps for variable names that are supposed to remain constant. ES02015 now supports constants with the 'const' keyword. Attempting to change the value will result in a read only error.
 
 It gets a bit weird with objects. Properties of the object can be mutated even if the object itself is assigned with const. However if you tried to reassign the referent to the top level object, it would throw the read only error.
@@ -678,7 +678,84 @@ for (let word of greeter) {
   console.log(word);
 }
 // this grabs the value. Equivalent to running greeter.next().value
-
-
-
 ```
+
+I have no idea wtf these are really used for, but I think the google api's make sure of something like this.
+
+## Maps and Weak Maps
+Maps are kind of like objects, but they have a few advantages. They are key value pairs, but they only contain user created pairs. Objects have the object prototype, so they come with a lot of other stuff, including key value pairs. Maps keep track of size, objects don't.
+
+```javascript
+var myMap = new Map();
+
+myMap.set('me', 'Aaron');
+myMap.set('wtf', 'word');
+
+myMap.get('me'); // => 'Aaron'
+myMap.get('thisDoesntExist'); // => undefined
+
+myMap.size(); // 2
+
+myMap.clear(); // now it's empty!
+
+myMap.has('me'); // => true
+myMap.has('foo'); // => false
+```
+
+Maps come with several iterators.
+
+```javascript
+
+for (var key of myMap.keys()) {
+  console.log(keys);
+}
+// me, wtf
+
+for (var value of myMap.values()) {
+  console.log(Values);
+}
+// Aaron, word
+
+for (var [key, value] of myMap.entries()) {
+  console.log(key + ' = ' + value);
+}
+```
+
+### Weak maps
+
+So weak bro
+
+No references are kept to the keys, so they are available for automatic garbage collection. Not as much stuff can be used as a key (no strings yo) and there are no iterators.
+
+## Rest Parameters
+Rest parameters vs the arguments object
+
+The arguments object is an array like object that contains all the function arguments:
+```javascript
+function myFunc() {
+  console.log(arguments);
+  console.log(arguments.length);
+}
+
+myfunc(1, 2, 3);
+
+/*l
+0: 1,
+1: 2,
+3: 3
+*/
+```
+The arguments objecdt doesn't have most of the array methods, like forEach. The way to deal with this before was to turn it into an array using the "Splice hack." Now you can just use rest parameters.
+
+```javascript
+function myFunc(param1, ...array) {
+  console.log(param1);
+  console.log(array);
+}
+
+myFunc('hey', 1, 2, 3, 4);
+
+// => 'hey', [1, 2, 3, 4]
+```
+
+Everything before the rest parameter is a normal parameter. Everything after is pushed to an array and passed in. 
