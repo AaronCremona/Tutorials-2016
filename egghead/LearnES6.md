@@ -758,4 +758,61 @@ myFunc('hey', 1, 2, 3, 4);
 // => 'hey', [1, 2, 3, 4]
 ```
 
-Everything before the rest parameter is a normal parameter. Everything after is pushed to an array and passed in. 
+Everything before the rest parameter is a normal parameter. Everything after is pushed to an array and passed in.
+
+## Object Destructuring with Required Values
+
+Example:
+```javascript
+function ajax({
+  type = 'get',
+  url=  '',
+  data = {},
+  success = () => {},
+  error = () => {},
+  isAync = true } = {}) {
+    console.log(JSON.stringify({ type, url, data, success, error, isAsync }, null, 2))
+  }
+
+try {
+  ajax({ });
+} catch (e) {
+  console.warn(e.message)
+}
+
+// {
+//   "type": "get",
+//   "url": "",
+//   "data": {},
+//   "isAsync": true
+// }
+```
+
+That probably should throw an error... seems like we should have a url.
+
+```javascript
+// add
+function requiredParameter (name) {
+  throw new Error(`missing parameter "${name}"`);
+}
+
+// now set the default parameters to the requiredParameter function
+function ajax({
+  type = 'get',
+  url=  requiredParameter('url'),
+  data = {},
+  success = requiredParameter('success'),
+  error = () => {},
+  isAync = true } = {}) {
+    console.log(JSON.stringify({ type, url, data, success, error, isAsync }, null, 2))
+  }
+  try {
+    ajax({
+    	url: "blah"
+    });
+  } catch (e) {
+    console.warn(e.message)
+  }
+
+// missing parameter "success"
+```
