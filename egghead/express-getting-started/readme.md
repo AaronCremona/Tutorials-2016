@@ -79,3 +79,20 @@ This route will trigger for any route that starts with holla!
 ### next()
 
 next can be passed into the callback for a route and when it is executed, it says "hey I'm done with this one, pass control over to the next appropriate route"
+
+## Setting up Jade - Lesson 3
+
+```
+app.set('views', './views')
+app.set('view engine', 'jade')
+```
+This tells express, whenever you render a view, look in the views folder, and to look for jade files
+
+Now, change the response to render a view instead of directly returning something:
+```
+app.get('/', function (req, res) {
+  res.render('index, { users: users }');
+});
+```
+This tells express, hey, go to the views folder, find the one for index and render it.
+The second parameter is a context object. We can pass all sorts of stuff.
