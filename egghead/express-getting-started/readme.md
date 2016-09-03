@@ -80,7 +80,9 @@ This route will trigger for any route that starts with holla!
 
 next can be passed into the callback for a route and when it is executed, it says "hey I'm done with this one, pass control over to the next appropriate route"
 
-## Setting up Jade - Lesson 3
+## Templating Engines
+
+### Setting up Jade - Lesson 3
 
 ```
 app.set('views', './views')
@@ -96,3 +98,19 @@ app.get('/', function (req, res) {
 ```
 This tells express, hey, go to the views folder, find the one for index and render it.
 The second parameter is a context object. We can pass all sorts of stuff.
+
+*This doesn't seem to work with current version of express - but I don't care. Screw jade*
+
+### Setting up handlebars
+
+Similar to jade, but change views engine to hbs and install dependencies for the templating engine
+```
+app.set('view engine', 'hsb')
+
+npm i -S handlebars consolidate
+// then require the dependencies
+
+var engines = require(consolidate)
+
+app.engine('hbs', engines.handlebars)
+```

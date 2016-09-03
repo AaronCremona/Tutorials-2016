@@ -5,6 +5,9 @@ var fs = require('fs');  // node file service
 var _ = require('lodash');
 var users = [];
 
+var engines = require('consolidate');
+app.engine('hbs', engines.handlebars);
+
 // read the json file and populate the users array
 fs.readFile('users.json', {encoding: 'utf8'}, function (err, data) {
   if (err) throw err;
@@ -15,14 +18,11 @@ fs.readFile('users.json', {encoding: 'utf8'}, function (err, data) {
   });
 });
 
+app.set('views', './views');
+app.set('view engine', 'hbs');
+
 app.get('/', function (req, res) {
-  var buffer = '';
-
-  users.forEach(function (user) {
-    buffer += '<a href="/' + user.username + '">' + user.name.full + '<br>';
-  });
-
-  res.send(buffer);
+  res.render('index', {users: users});
 });
 
 app.get(/big.*/, function (req, res, next) {
