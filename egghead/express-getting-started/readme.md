@@ -105,7 +105,7 @@ The second parameter is a context object. We can pass all sorts of stuff.
 
 Similar to jade, but change views engine to hbs and install dependencies for the templating engine
 ```
-app.set('view engine', 'hsb')
+app.set('view engine', 'hbs')
 
 npm i -S handlebars consolidate
 // then require the dependencies
@@ -114,3 +114,23 @@ var engines = require(consolidate)
 
 app.engine('hbs', engines.handlebars)
 ```
+
+## Static files - Lesson 4
+
+Tell express where to find static files:
+```
+// index.js
+app.use(express.static('images'));
+
+// index.hbs
+<img src="{{user.username}}_sm.jpg" >
+```
+This tells express, hey, anytime you get a request for a static file, look in the images pathnames
+
+Or, you can use better pathnames:
+```
+app.use('/profilepics', express.static('images'));
+
+<img src="/profilepics/{{user.username}}_sm.jpg" >
+```
+Anytime you get an express to the profilepics path, look in this folder
