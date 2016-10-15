@@ -24,7 +24,10 @@ app.set('view engine', 'hbs');
 app.use('/profilepics', express.static('images'));
 
 app.get('/', function (req, res) {
-  res.render('index', {users: users});
+  res.render('index', {
+    users: users,
+    address: user.location
+  });
 });
 
 app.get('/:username', function (req, res) {
