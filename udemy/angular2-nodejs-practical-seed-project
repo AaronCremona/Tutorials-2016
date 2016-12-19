@@ -1,0 +1,6 @@
+# Seed Project Example from Angular 2 and NodeJS - The Practical Guide to MEAN Stack 2.0
+
+## Setting up Node JS & Express
+```
+$ npm install express-generator -g
+```
